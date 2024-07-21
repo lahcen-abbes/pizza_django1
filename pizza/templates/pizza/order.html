@@ -1,0 +1,74 @@
+{% extends 'pizza/base.html' %}
+<!--<h1>Order a Pizza</h1>
+
+<h2>{{ note }}</h2>
+    {% if created_pizza_pk %}
+    <h2><a href="{% url 'edit_order' created_pizza_pk %}">Edit Your Order</a></h2>
+    {% endif %}
+
+
+<form action="{% url 'order' %}" method="post" novalidate> <!--lokan ndiro novalidate nwelo ndekhlo fl topping 1 w 2 w size w url w email ay haja ydir submit nrml psq gle3na la validation-->
+    <!--{% csrf_token %}
+    <!--<ol>-->
+    <!--pizzaform.as_p tkhelihom wahed te7t wahed(labels) psq kon tdir inspecr tchof bli chaque label dakhel f une paragraph tag(<p>), pizzaform.as_table fi west <table> ydir ga3 lables fi <table> <tbody> wahed chaque lable fi <tr> <th>, pizzaform.as_ul fi west <ul> ydir ga3 lables fi ul wahed chaque lable dakhel <li> kima rana kon ndiro fi blasset <table> <ol> labels yweli mre9min 1. 2. 3. -->
+    <!--{{ pizzaform.topping1.label_tag }} <!--ze3ma golnaleh affichilna ism topping1 brk-->
+    <!--{{ pizzaform.topping1 }} <!--ze3ma golnaleh affichilna label ta3 topping1 brk-->
+    <!--{{ pizzaform.topping1.errors }} <!--golnaleh affichilna error ta3 had input if any-->
+    <!--{{ pizzaform.topping2.label_tag }}
+    {{ pizzaform.topping2 }}
+    {{ pizzaform.topping2.errors }}
+    <br><br><br>
+    <label for="{{ pizzaform.size.id_for_label}}">Size for your pizza:</label> <!--hna juste bedelna ism label b Size:-->
+    <!--{{ pizzaform.size }}
+    {{ pizzaform.size.errors }}
+      <!--</ol>--><!--
+      <input type="submit" value="Order Pizza">
+</form>
+
+<br><br>
+Want more than one pizza?
+<form action="{% url 'pizzas' %}" method="get">
+  {% csrf_token %}
+  {{ multiple_form }}
+  <input type="submit" value="Get Pizzas">
+</form>-->
+
+{% load widget_tweaks %}
+
+{% block 'body' %}
+<div class="container">
+  <h1>Order a Pizza</h1>
+  <h2>{{ note }}</h2>
+  {% if created_pizza_pk %}
+    <h2><a href="{% url 'edit_order' created_pizza_pk %}">Edit Your Order</a></h2>
+  {% endif %}
+
+  <form action="{% url 'order' %}" method="post" novalidate>
+    {% csrf_token %}
+    {% for field in pizzaform %}
+      {% if field.name == 'size' %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% render_field field class="form-control" %}
+          {{ field.errors }}
+        </div>
+      {% elif 'topping' in field.name %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% render_field field class="form-control" %}
+          {{ field.errors }}
+        </div>
+      {% endif %}
+    {% endfor %}
+    <input type="submit" value="Order Pizza">
+  </form>
+
+  <br><br>
+Want more than one pizza?
+<form action="{% url 'pizzas' %}" method="get">  <!--ndiro method="get" ki nebgho nenta9lo m lien lel lien, method="post" ki net3amlo m3a database-->
+  {% csrf_token %}
+  {{ multiple_form }}
+  <input type="submit" value="Get Pizzas"> 
+</form>
+</div>
+{% endblock %} 

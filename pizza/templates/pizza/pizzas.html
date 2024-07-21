@@ -1,0 +1,22 @@
+{% extends 'pizza/base.html' %}
+{% block 'body' %}
+<div class="container">
+<h1>Order Pizzas</h1>
+
+
+<h2>{{ note }}</h2>
+
+
+<form action="{% url 'pizzas' %}" method="post">
+  {% csrf_token %}
+    {{ formset.management_form }} <!--management_form It keeps track of important information about the formset, such as the number of form instances being displayed, the total number of forms expected, and other management data.-->
+
+
+    {% for form in formset %}
+      {{ form }}
+      <br><br>
+    {% endfor %}
+    <input type="submit" value="Order Pizzas" />
+  </form>
+</div>
+{% endblock %}
